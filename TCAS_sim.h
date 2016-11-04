@@ -1,8 +1,11 @@
 /*
  *  TCAS_sim.h
  */
+
+#pragma once
  
 #include "TCAS_defs.h"
+
  
 class TCAS_sim
 {
@@ -16,9 +19,12 @@ private:
     
     
 public:
-    bool TCAS_simUpdateOwnState(AC_state);
-    bool TCAS_simUpdateTargetState(AC_state);
- 
+    //Insert new simulation parameters (from control inputs)
+    bool UpdateOwnState(AC_state);
+    //Insert new simulation parameters (from network)
+    bool UpdateTargetState(AC_state);
+
+    
     int TCAS_simDo();
     //TODO: getter for collisions object
     

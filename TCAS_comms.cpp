@@ -5,7 +5,7 @@
 #include "TCAS_comms.h"
 
 
-    /* Initialize memBuffer with desired size
+    /*  Initialize memBuffer with desired size
         
         intiSize - Size of the buffer to allocate
         

@@ -1,5 +1,7 @@
 //  TCAS_comms.h
 
+#pragma once
+
 #define DEFAULT_MSG_INIT_SIZE 256
 
 class memBuffer

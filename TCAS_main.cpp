@@ -5,6 +5,8 @@
  *
  */
 
+
+#include <iostream>
 #include "TCAS_defs.h"
  
 int main(int argn, char *argv[])
@@ -13,7 +15,7 @@ int main(int argn, char *argv[])
     std::cout << "Initializing...\n";
     
     //TODO - Acquire starting coordinates
-    std::cout << "Using default initial state: x=0;0;0 v=200;0;0\n"
+    std::cout << "Using default initial state: x=0;0;0 v=200;0;0\n";
     double xinit = 0;
     double yinit = 0;
     double zinit = 0;
