@@ -29,9 +29,10 @@ class memBuffer
     
     //Append message to existing. Allocates space if needed
     bool append(char *msg, int size);
-    //Truncate message by sizeToTruncate bytes
+    //Truncate message to sizeToTruncate bytes
     bool truncate(int sizeToTruncate);
-    
+    //Get the actual message as a buffer of chars 
+    void getContents(int maxSize, int sizeFilled&, char *outputBuffer&);
     
 }
 
