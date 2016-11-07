@@ -216,7 +216,26 @@ bool truncate(int sizeToTruncate)
     //There's really no good reason to reduce the size of the memBuffer, 
     //so let's keep things simple
     
+    if (maxSize >= sizeToTruncate)
+    {
+        if (sizeToTruncate < currSize)
+        {
+            currSize = sizeToTruncate;
+            return true;
+        }
+    }
+}
+
+//Get the actual message as a buffer of chars 
+void getContents(int sizeFilled&, const char *outputBuffer&)
+{
+    if (buffer == nullptr)
+    {
+        //TODO: Throw exception
+    }
     
+    sizeFilled = currSize;
+    outputBuffer = buffer;
 }
 
     

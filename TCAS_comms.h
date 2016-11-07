@@ -32,7 +32,7 @@ class memBuffer
     //Truncate message to sizeToTruncate bytes
     bool truncate(int sizeToTruncate);
     //Get the actual message as a buffer of chars 
-    void getContents(int maxSize, int sizeFilled&, char *outputBuffer&);
+    void getContents(int sizeFilled&, const char *outputBuffer&);
     
 }
 
