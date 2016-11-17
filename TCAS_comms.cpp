@@ -4,8 +4,6 @@
 #include <cstring>
 #include "TCAS_comms.h"
 
-//DELETE THIS
-#include <iostream>
 
 //memBufException stuff
 
@@ -72,7 +70,6 @@ memBuffer::~memBuffer()
     if (buffer != nullptr)
     {
         delete[] buffer;
-        std::cout << "deconstructin" << std::endl;
     }
 }
 
@@ -108,8 +105,6 @@ void memBuffer::init(int initSize)
     
     maxSize = initSize;
     currSize = 0;
-    
-    std::cout << "constructin" << std::endl;
     
     return;
 }
