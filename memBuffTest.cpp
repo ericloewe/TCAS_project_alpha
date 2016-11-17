@@ -16,17 +16,7 @@ int main(void)
         memBufList[i].init(memBufSize);
     }
     
-    std::cout << "Press any key to continue" << std::endl;
-    int a;
-    std::cin >> a; 
-    
-    for (int i = 0; i < NofmemBuffers; i++)
-    {
-        memBufList[i].~memBuffer();
-    } 
-    
-    std::cerr << std::endl;
-    std::cout << "Press any key to continue" << std::endl;
-    std::cin >> a;
-    
+    std::cout << "Press enter to continue" << std::endl;
+    std::cin.get();
 }
+
