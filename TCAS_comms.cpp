@@ -4,6 +4,25 @@
 #include <cstring>
 #include "TCAS_comms.h"
 
+//DELETE THIS
+#include <iostream>
+
+//memBufException stuff
+
+
+memBufException::memBufException(const string& message)
+{
+    errMsg = message;
+}
+
+const char* memBufException::what() const throw()
+{
+    return errMsg.c_str();
+}
+
+
+
+
 //
 // Constructors and destructor
 //
@@ -21,7 +40,7 @@ memBuffer::memBuffer(char *msg, int size)
     {
         //Bad init
         //If this code executes, something is very wrong
-        //TODO: Throw exception
+        throw memBufException("Unable to copy size bytes into memBuffer!");
     }
 }
 
@@ -52,7 +71,8 @@ memBuffer::~memBuffer()
     //Buffer is the only thing that needs treatment
     if (buffer != nullptr)
     {
-        free(buffer);
+        delete[] buffer;
+        std::cout << "deconstructin" << std::endl;
     }
 }
 
@@ -62,45 +82,36 @@ memBuffer::~memBuffer()
     
     Defaults to DEFAULT_MSG_INIT_SIZE for invalid sizes
     
-    Throws std::bad_alloc if allocation fails
+    Throws memBufException if allocation fails
     Throws TODO: SOMETHING if memBuffer is already initialized
     
 */
-void init(int initSize)
+void memBuffer::init(int initSize)
 {
     if (buffer != nullptr) //Don't init if it's already been done
     {
-        //TODO: Throw exception
+        throw memBufException("Tried to initialize initialized memBuffer!");
     }
     
     if (initSize < 1) //Use default size
     {
-        buffer = (char*)calloc(DEFAULT_MSG_INIT_SIZE, 1);
-        
-        if (buffer == nullptr)
-        {
-            throw std::bad_alloc("Calloc returned NULL!");
-        }
-        
-        maxSize = DEFAULT_MSG_INIT_SIZE;
-        currSize = 0;
-        
-        return;
+        initSize = DEFAULT_MSG_INIT_SIZE;
     }
-    else
+    
+    //buffer = (char*)calloc(initSize, 1);
+    buffer = new char[initSize];
+    
+    if (buffer == nullptr)
     {
-        buffer = (char*)calloc(initSize, 1);
-        
-        if (buffer == nullptr)
-        {
-            throw std::bad_alloc("Calloc returned NULL!");
-        }
-        
-        maxSize = initSize;
-        currSize = 0;
-        
-        return;
+        throw memBufException("Calloc returned NULL!");
     }
+    
+    maxSize = initSize;
+    currSize = 0;
+    
+    std::cout << "constructin" << std::endl;
+    
+    return;
 }
 
 /* Expands initialized memBuffer to a new size
@@ -110,26 +121,27 @@ void init(int initSize)
     Despite its name, expand will happilly truncate memBuffers to 
     smaller sizes.
     
-    Throws std::bad_alloc if allocation fails
+    Throws memBufException if allocation fails
     Throws TODO: SOMETHING if memBuffer is already initialized
 */
-void expand(int newSize)
+void memBuffer::expand(int newSize)
 {
     //Check if memBuffer has been initialized
     //If not, throw an exception
     
     if (buffer == nullptr)
     {
-        //TODO: Throw exception
+        throw memBufException("memBuffer not initialized!");
     }
     
     //Allocate a new memory region
     
-    char *newBuf = (char*)calloc(newSize, 1);
+    //char *newBuf = (char*)calloc(newSize, 1);
+    char *newBuf = new char[newSize];
     
     if (newBuf == nullptr)
     {
-        throw std::bad_alloc("Calloc returned NULL!");
+        throw memBufException("Calloc returned NULL!");
     }
     
     //Copy contents over to newBuf
@@ -164,11 +176,11 @@ void expand(int newSize)
     Return value indicates whether the addition to the message fits and was
     thus presumably successful
 */
-bool copy(char *msg, int msgLen)
+bool memBuffer::copy(char *msg, int msgLen)
 {
     if (buffer == nullptr)
     {
-        //TODO: Throw exception
+        throw memBufException("memBuffer not initialized!");
     }
     
     if (msgLen + currSize > maxSize) //Do nothing, return false
@@ -187,11 +199,11 @@ bool copy(char *msg, int msgLen)
 
 
 //Append message to existing. Allocates space if needed
-bool append(char *msg, int size)
+bool memBuffer::append(char *msg, int size)
 {
     if (buffer == nullptr)
     {
-        //TODO: Throw exception
+        throw memBufException("memBuffer not initialized!");
     }
     
     if (currSize + size > maxSize)
@@ -211,8 +223,13 @@ bool append(char *msg, int size)
 }
 
 //Truncate message to sizeToTruncate bytes
-bool truncate(int sizeToTruncate)
+bool memBuffer::truncate(int sizeToTruncate)
 {
+    if (buffer == nullptr)
+    {
+        throw memBufException("memBuffer not initialized!");
+    }
+    
     //There's really no good reason to reduce the size of the memBuffer, 
     //so let's keep things simple
     
@@ -227,11 +244,11 @@ bool truncate(int sizeToTruncate)
 }
 
 //Get the actual message as a buffer of chars 
-void getContents(int sizeFilled&, const char *outputBuffer&)
+void memBuffer::getContents(int& sizeFilled, const char* & outputBuffer)
 {
     if (buffer == nullptr)
     {
-        //TODO: Throw exception
+        throw memBufException("memBuffer not initialized!");
     }
     
     sizeFilled = currSize;
@@ -240,7 +257,7 @@ void getContents(int sizeFilled&, const char *outputBuffer&)
 
     
     
-    
+
     
     
     

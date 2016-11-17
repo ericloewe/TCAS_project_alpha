@@ -1,18 +1,39 @@
 //  TCAS_comms.h
 
+#include <exception>
+#include <new>
+#include <string>
+
 #pragma once
 
 #define DEFAULT_MSG_INIT_SIZE 256
 
+using std::string;
+
+class memBufException: public std::exception
+{
+    
+    protected:
+    
+    std::string errMsg;
+        
+    public:
+    memBufException(const string& message);
+    
+    virtual const char* what() const throw();
+    
+
+};
+
 class memBuffer
 {
-    private:
+    protected:
     
     char *buffer = nullptr;
     int maxSize = 0;
     int currSize = 0;
     
-    void init(int initSize);
+    
     void expand(int newSize);
     bool copy(char *msg, int msgLen);
     
@@ -27,16 +48,17 @@ class memBuffer
     //Destructor
     ~memBuffer();
     
+    void init(int initSize);
     //Append message to existing. Allocates space if needed
     bool append(char *msg, int size);
     //Truncate message to sizeToTruncate bytes
     bool truncate(int sizeToTruncate);
     //Get the actual message as a buffer of chars 
-    void getContents(int sizeFilled&, const char *outputBuffer&);
+    void getContents(int& sizeFilled, const char* & outputBuffer);
     
-}
+};
 
-class broadcast_socket
+/*class broadcast_socket
 {
     private:
     
@@ -48,4 +70,4 @@ class broadcast_socket
     broadcast_socket(int port);
     send()
     
-}
+}*/
