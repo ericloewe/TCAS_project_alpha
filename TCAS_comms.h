@@ -3,6 +3,9 @@
 #include <exception>
 #include <new>
 #include <string>
+#include <vector>
+
+#include "TCAS_defs.h"
 
 #pragma once
 
@@ -58,7 +61,7 @@ class memBuffer
     
 };
 
-/*class broadcast_socket
+class broadcast_socket
 {
     private:
     
@@ -68,6 +71,9 @@ class memBuffer
     public:
     
     broadcast_socket(int port);
-    send()
+    bool transmitUpdatedStatus(AC_state ownState);
+    int getUpdatedTargetsStatus()
     
-}*/
+    
+    
+}
