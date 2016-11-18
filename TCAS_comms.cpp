@@ -1,7 +1,10 @@
 //TCAS_comms.cpp
 
+#include <iostream>
 #include <cstdlib>
 #include <cstring>
+#include <sys/types.h>
+#include <sys/socket.h>
 #include "TCAS_comms.h"
 
 
@@ -250,8 +253,77 @@ void memBuffer::getContents(int& sizeFilled, const char* & outputBuffer)
     outputBuffer = buffer;
 }
 
+
+/*
+ *  Actual networking stuff
+ *
+ *
+ *
+ */
+ 
+/*
+ *  Init constructor
+ */ 
+broadcast_socket::broadcast_socket(int port)
+{
+    //Create an IPv4 UDP socket
+    sock_fd = socket(AF_INET, SOCK_DGRAM, 0);
+    
+    if (sock_fd == 0)
+    {
+        //TODO - Throw exception
+        std::cout << "Socket creation failed and should've thrown an exception" << std::endl;
+        exit(-1);
+    }
     
     
+    
+    char broadcastIP[] = "255.255.255.255";
+    int broadscastPort = port;
+    
+    int broadcastPerm = 1;
+    
+    //Set broadcast permission to true
+    if (setsockopt(sock_fd, SOL_SOCKET, SO_BROADCAST, 
+                   (void *) &broadcastPerm, sizeof(broadcastPerm)) < 0)
+    {
+        //TODO - Throw exception
+        std::cout << "setsockopt failed miserably" << std::endl;
+        exit(-1);
+    }
+    
+    //Set loopback to false, may be useful in the future
+    /*
+        char loopch=0;
+
+        if (setsockopt(sd, IPPROTO_IP, IP_MULTICAST_LOOP,
+                       (char *)&loopch, sizeof(loopch)) < 0) {
+          perror("setting IP_MULTICAST_LOOP:");
+          close(sd);
+          exit(1);
+        }
+    
+    */
+      
+    broadcastAddr.sin_family = AF_INET;
+    broadcastAddr.sin_addr.s_addr = inet_addr(broadcastIP);
+    broadcastAddr.sin_port = htons(broadscastPort);
+    
+    sendAddr = (sockaddr*) &broadcastAddr;
+    int sendAddrSize = sizeof(broadcastAddr);
+    
+    string testString = "This is a test string";
+    
+    if (sendto(sock_fd, testString.c_str(), testString.length(), 0, 
+                sendAddr, sendAddrSize) != testString.length())
+    {
+        fprintf(stderr, "sendto error");
+        exit(1);
+    }
+    
+    
+
+}  
 
     
     

@@ -8,6 +8,7 @@
 
 #include <iostream>
 #include "TCAS_defs.h"
+#include "TCAS_comms.h"
  
 int main(int argn, char *argv[])
 {
@@ -29,6 +30,8 @@ int main(int argn, char *argv[])
                             zdotinit);
     
     //TODO - Initialize networking
+
+    broadcast_socket testSocket(10505);
     
     //TODO - Initialize TCAS simulator
     

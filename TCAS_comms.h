@@ -4,6 +4,10 @@
 #include <new>
 #include <string>
 #include <vector>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
 
 #include "TCAS_defs.h"
 
@@ -66,14 +70,16 @@ class broadcast_socket
     private:
     
     int sock_fd;
+    struct sockaddr_in broadcastAddr;
+    struct sockaddr* sendAddr;
     
     
     public:
     
     broadcast_socket(int port);
     bool transmitUpdatedStatus(AC_state ownState);
-    int getUpdatedTargetsStatus()
+    int getUpdatedTargetsStatus(std::vector<AC_state>& targetsList);
     
     
     
-}
+};
