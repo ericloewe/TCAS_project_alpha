@@ -7,6 +7,10 @@ const uint64_t own_hex = 216412359;
 
 class AC_state
 {
+    friend class AC_sim; //to access the positions and velocities
+    friend class TCAS_sim; //to access AC_ID
+    friend void printState(AC_state state);
+    
 private:
     uint64_t AC_ID;
     

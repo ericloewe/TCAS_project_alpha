@@ -1,9 +1,14 @@
 #pragma once
 
 #include "TCAS_defs.h"
+#include <chrono>
+
+
+//typedef std::chrono::duration<long long int> milliDuration;
+using namespace std::chrono;
 
 class AC_sim
-{
+{    
     private:
     
     AC_state state;
@@ -22,9 +27,7 @@ class AC_sim
     
     //bool cmdInputs();
     
-    void runSim(int freq);
+    private:
+    void step(milliseconds stepDuration);
     
-    
-    
-    
-}
+};

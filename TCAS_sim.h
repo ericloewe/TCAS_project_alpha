@@ -9,11 +9,11 @@
  
 class TCAS_sim
 {
-
+    const static int NumOfTargets = 10;
     
 private:
     AC_state ownState;
-    AC_state targetStates[8];
+    AC_state targetStates[NumOfTargets];
  
     //TODO: Some sort of collisions object
     
@@ -27,7 +27,6 @@ public:
     
     int TCAS_simDo();
     //TODO: getter for collisions object
-    
-    
-}
+    bool getCollisions();
+};
  
