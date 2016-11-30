@@ -325,10 +325,11 @@ broadcast_socket::broadcast_socket(int port)
 
 }  
 
-TCAS_msg::TCAS_msg(AC_state state)
+/*
+ *  updateTCASStatus - Update the message's own state fields
+ */
+void TCAS_msg::updateOwnStatus(AC_state state)
 {
-    strncpy(header, "ACIP TCAS   V01\0", 16);
-    
     ac_id = state.getID();
     
     xPos = state.getX_pos();
@@ -338,12 +339,51 @@ TCAS_msg::TCAS_msg(AC_state state)
     xSpd = state.getX_spd();
     ySpd = state.getY_spd();
     zSpd = state.getZ_spd();
+}
+
+/*
+ *  updateTCASStatus - Update the message's TCAS fields
+ */
+void TCAS_msg::updateTCASStatus(TCAS_state state)
+{
+    strncpy(status, state.status, 16);
+    strncpy(resolution, state.resolution, 16);
+    intruderHex = state.intruder_hex;
+    resValue = state.res_value;
+}
+
+/*  
+ *  Constructor: Use existing AC_state to initialize the message.
+ *
+ *      TCAS status data is not initialized
+ *
+ *      CRC32 is calculated only upon transmission
+ */
+TCAS_msg::TCAS_msg(AC_state state)
+{
+    //Set the correct header
+    strncpy(header, TCAS_MSG_HEADER, TCAS_MSG_STRLEN);
     
-    //We don't have resolution info yet
-    status[0] = '\0';
-    intruderHex = 0;
-    resolution[0] = '\0';
-    resValue = 0;
+    this.updateOwnStatus(state);
+    
+    //We don't have TCAS status data
+    
+    //CRC32 is calculated just before transmission
+}
+
+/*  
+ *  Constructor: Use existing AC_state and TCAS_state to initialize 
+ *                  the message.
+ *
+ *      CRC32 is calculated only upon transmission
+ */
+TCAS_msg::TCAS_msg(AC_state state, TCAS_state situation)
+{
+    //Set the correct header
+    strncpy(header, TCAS_MSG_HEADER, TCAS_MSG_STRLEN);
+    
+    this.updateOwnStatus(state);
+    this.updateTCASStatus(situation);
     
     //CRC32 is calculated just before transmission
 }
@@ -351,9 +391,13 @@ TCAS_msg::TCAS_msg(AC_state state)
 bool broadcast_socket::transmitUpdatedStatus(AC_state ownState)
 {
     TCAS_msg msg(ownState);
+    
 }
     
-    
+bool broadcast_socket::transmitUpdatedStatus(AC_state ownState, TCAS_state tcasSituation)
+{
+    TCAS_msg msg(ownState);
+}   
     
     
     

@@ -15,6 +15,9 @@
 
 #define DEFAULT_MSG_INIT_SIZE 256
 
+#define TCAS_MSG_HEADER "ACIP TCAS   V01\0"
+#define TCAS_MSG_STRLEN 16
+
 using std::string;
 
 class memBufException: public std::exception
@@ -65,9 +68,20 @@ class memBuffer
     
 };
 
+
+/*  
+ *  TCAS_msg is structured exactly like the data sent over the network. 
+ *  Instances of this class can simply be cast into void * and passed 
+ *  to/from socket's send and recv functions.
+ *  
+ */ 
 class TCAS_msg
 {
-    public:
+private:
+    void updateOwnStatus(AC_state state);
+    void updateTCASStatus(TCAS_state state);
+
+public:
     
     char        header[16];
     uint64_t    ac_id;
@@ -89,6 +103,8 @@ class TCAS_msg
     
     //AC_state constructor
     TCAS_msg(AC_state state);
+    //Constructor fed with all the relevant data
+    TCAS_msg(AC_state state, TCAS_state situation);
 };
 
 class broadcast_socket
@@ -99,11 +115,14 @@ class broadcast_socket
     struct sockaddr_in broadcastAddr;
     struct sockaddr* sendAddr;
     
+    //Somewhat dangerous, kept private for safety reasons
+    bool transmitUpdatedStatus(AC_state ownState);
     
     public:
     
     broadcast_socket(int port);
-    bool transmitUpdatedStatus(AC_state ownState);
+    
+    bool transmitUpdatedStatus(AC_state ownState, TCAS_state tcasSituation);
     int getUpdatedTargetsStatus(std::vector<AC_state>& targetsList);
     
     

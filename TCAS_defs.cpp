@@ -60,3 +60,12 @@ double AC_state::getZ_spd()
 {
     return z_spd;
 }
+
+//Default constructor - creates an all-clear state
+TCAS_state::TCAS_state()
+{
+    strncpy(status, "CLEAR\0", 16);
+    resolution[0] = '\0';
+    intruder_hex = 0;
+    res_value = 0;
+}

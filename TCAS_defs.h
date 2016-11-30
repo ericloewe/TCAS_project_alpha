@@ -37,3 +37,18 @@ public:
     double getZ_spd();
     
 };
+
+class TCAS_state
+{
+public:
+    char        status[16];
+    char        resolution[16];
+    
+    uint64_t    intruder_hex;
+    
+    double      res_value;
+    
+    //Default constructor - creates an all-clear state
+    TCAS_state();
+};
+
