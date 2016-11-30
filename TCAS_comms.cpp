@@ -325,7 +325,33 @@ broadcast_socket::broadcast_socket(int port)
 
 }  
 
+TCAS_msg::TCAS_msg(AC_state state)
+{
+    strncpy(header, "ACIP TCAS   V01\0", 16);
     
+    ac_id = state.getID();
+    
+    xPos = state.getX_pos();
+    yPos = state.getY_pos();
+    zPos = state.getZ_pos();
+    
+    xSpd = state.getX_spd();
+    ySpd = state.getY_spd();
+    zSpd = state.getZ_spd();
+    
+    //We don't have resolution info yet
+    status[0] = '\0';
+    intruderHex = 0;
+    resolution[0] = '\0';
+    resValue = 0;
+    
+    //CRC32 is calculated just before transmission
+}
+
+bool broadcast_socket::transmitUpdatedStatus(AC_state ownState)
+{
+    TCAS_msg msg(ownState);
+}
     
     
     

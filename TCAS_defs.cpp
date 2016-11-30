@@ -30,3 +30,33 @@ AC_state::AC_state(uint64_t ID, double xpos, double ypos, double zpos,
         auto duration = time_of_issue.time_since_epoch();
         std::cout << "High resolution timer: " << duration.count() << std::endl;
     }
+    
+//Getters
+uint64_t AC_state::getID()
+{
+    return AC_ID;
+}
+double AC_state::getX_pos()
+{
+    return x_pos;
+}
+double AC_state::getY_pos()
+{
+    return y_pos;
+}
+double AC_state::getZ_pos()
+{
+    return z_pos;
+}
+double AC_state::getX_spd()
+{
+    return x_spd;
+}
+double AC_state::getY_spd()
+{
+    return y_spd;
+}
+double AC_state::getZ_spd()
+{
+    return z_spd;
+}

@@ -27,5 +27,13 @@ public:
     AC_state();
     AC_state(uint64_t ID, double xpos, double ypos, double zpos,
                 double xspd, double yspd, double zspd);
+                
+    uint64_t getID();
+    double getX_pos();
+    double getY_pos();
+    double getZ_pos();
+    double getX_spd();
+    double getY_spd();
+    double getZ_spd();
     
 };

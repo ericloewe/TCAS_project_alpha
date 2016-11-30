@@ -65,6 +65,32 @@ class memBuffer
     
 };
 
+class TCAS_msg
+{
+    public:
+    
+    char        header[16];
+    uint64_t    ac_id;
+    
+    double      xPos;
+    double      yPos;
+    double      zPos;
+    
+    double      xSpd;
+    double      ySpd;
+    double      zSpd;
+    
+    char        status[16];
+    uint64_t    intruderHex;
+    char        resolution[16];
+    double      resValue;
+    
+    uint32_t    CRC;
+    
+    //AC_state constructor
+    TCAS_msg(AC_state state);
+};
+
 class broadcast_socket
 {
     private:
