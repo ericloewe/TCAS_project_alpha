@@ -5,6 +5,7 @@ AC_sim::AC_sim(AC_state initState)
     state = initState;
 }
 
+//TODO: Use Runge-Kuptta
 void AC_sim::step(milliseconds stepDuration)
 {
     state.x_pos += state.x_spd*(double)stepDuration.count()/1000.0;
