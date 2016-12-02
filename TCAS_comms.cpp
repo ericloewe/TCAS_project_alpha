@@ -269,7 +269,7 @@ broadcast_socket::broadcast_socket(int port)
     //Create an IPv4 UDP socket
     sock_fd = socket(AF_INET, SOCK_DGRAM, 0);
     
-    if (sock_fd == 0)
+    if (sock_fd < 1)
     {
         //TODO - Throw exception
         std::cout << "Socket creation failed and should've thrown an exception" << std::endl;
@@ -396,7 +396,7 @@ bool broadcast_socket::transmitUpdatedStatus(AC_state ownState)
     
 bool broadcast_socket::transmitUpdatedStatus(AC_state ownState, TCAS_state tcasSituation)
 {
-    TCAS_msg msg(ownState);
+    TCAS_msg msg(ownState, tcasSituation);
 }   
     
     
