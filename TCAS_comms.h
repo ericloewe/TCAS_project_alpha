@@ -115,14 +115,14 @@ class broadcast_socket
     struct sockaddr_in broadcastAddr;
     struct sockaddr* sendAddr;
     
-    //Somewhat dangerous, kept private for safety reasons
-    bool transmitUpdatedStatus(AC_state ownState);
+    //Somewhat dangerous, let's not do it, for safety reasons
+    //bool transmitUpdatedStatus(AC_state ownState);
     
     public:
     
     broadcast_socket(int port);
     
-    bool transmitUpdatedStatus(AC_state ownState, TCAS_state tcasSituation);
+    void transmitUpdatedStatus(AC_state ownState, TCAS_state tcasSituation);
     int getUpdatedTargetsStatus(std::vector<AC_state>& targetsList);
     
     

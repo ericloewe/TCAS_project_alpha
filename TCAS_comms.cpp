@@ -387,16 +387,24 @@ TCAS_msg::TCAS_msg(AC_state state, TCAS_state situation)
     
     //CRC32 is calculated just before transmission
 }
-
-bool broadcast_socket::transmitUpdatedStatus(AC_state ownState)
-{
-    TCAS_msg msg(ownState);
     
-}
-    
-bool broadcast_socket::transmitUpdatedStatus(AC_state ownState, TCAS_state tcasSituation)
+void broadcast_socket::transmitUpdatedStatus(AC_state ownState, TCAS_state tcasSituation)
 {
     TCAS_msg msg(ownState, tcasSituation);
+    
+    //Calculate CRC32
+    
+    //send the data
+    int bytes = sendto(sock_fd, (void *) &msg, sizeof(TCAS_msg), 0, 
+                sendAddr, sendAddrSize);
+                
+    if (bytes != sizeof(TCAS_msg))
+    {
+        //TODO: Throw exception
+        
+    }
+    
+    return true;
 }   
     
     
