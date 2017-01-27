@@ -8,8 +8,9 @@ AC_sim::AC_sim(AC_state initState)
 
 void AC_sim::advanceToNow()
 {
-    milliseconds delta_t_chrono = duration_cast<milliseconds>(std::chrono::high_resolution_clock::now() - state.time_of_issue);
-    state.time_of_issue = std::chrono::high_resolution_clock::now();
+    std::chrono::high_resolution_clock::time_point curr_time = std::chrono::high_resolution_clock::now();
+    milliseconds delta_t_chrono = duration_cast<milliseconds>(curr_time - state.time_of_issue);
+    state.time_of_issue = curr_time;
     
     double pos[3] = {state.x_pos, state.y_pos, state.z_pos};
     double spd[3] = {state.x_spd, state.y_spd, state.z_spd};
