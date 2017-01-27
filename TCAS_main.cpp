@@ -30,11 +30,9 @@ int main(int argn, char *argv[])
     double ydotinit = 0;
     double zdotinit = 0;
     
-    //TODO - Initialize own model
-    AC_state ownInitState(own_hex, xinit, yinit, zinit, xdotinit, ydotinit,
-                            zdotinit);
-    
+    AC_state ownInitState(own_hex, 0, 0, 1000); //1000m above S.Tomé e Príncipe
     AC_sim ownAircraft(ownInitState);
+    ownAircraft.set_controls(270, 0, pi/2);
     
     while(1)
     {
@@ -57,6 +55,27 @@ int main(int argn, char *argv[])
 
 void printState (AC_state state){
     cout << "Aircraft ID: " << state.AC_ID << endl;
-    cout << "Position: " << state.x_pos << "; " << state.y_pos << "; " << state.z_pos << endl;
-    cout << "Velocity: " << state.x_spd << "; " << state.y_spd << "; " << state.z_spd << endl;
+    
+    double P_xyz[3] = {state.x_pos, state.y_pos, state.z_pos};
+    double P_llh[3];
+    
+    xyz_to_llh(P_xyz, P_llh);
+    
+    cout << "Position: ";
+    for(int i=0; i<2; i++)
+        cout << P_llh[i]*180/pi << "º ";
+    cout << P_llh[2] << "m " << endl;
+    
+    double V_xyz[3] = {state.x_spd, state.y_spd, state.z_spd};;
+    double V_enu[3];
+    xyz_to_enu(V_xyz, P_llh[0], P_llh[1], V_enu);
+    
+    cout << "Velocity: ";
+    for(int i=0; i<3; i++)
+        cout << V_enu[i] << " ";
+    cout << "(m/s)" << endl;
+    
+    /*cout << "Position: " << state.x_pos << "; " << state.y_pos << "; " << state.z_pos << endl;
+    cout << "Velocity: " << state.x_spd << "; " << state.y_spd << "; " << state.z_spd << endl;*/
+    
 }
