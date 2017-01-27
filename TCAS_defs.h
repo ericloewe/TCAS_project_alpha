@@ -31,5 +31,7 @@ public:
     AC_state();
     AC_state(uint64_t ID, double xpos, double ypos, double zpos,
                 double xspd, double yspd, double zspd);
+                
+    AC_state(uint64_t ID, double Latitude, double Longitude, double Altitude); //velocity to be defined by commands
     
 };
