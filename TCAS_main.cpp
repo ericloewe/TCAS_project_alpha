@@ -10,6 +10,7 @@
 #include <unistd.h>
 #include "TCAS_defs.h"
 #include "AC_sim.h"
+#include "Radar.h"
 
 void printState (AC_state state);
 
@@ -19,6 +20,8 @@ int main(int argn, char *argv[])
 {
     std::cout << "TCAS simulator Group C\n";
     std::cout << "Initializing...\n";
+    
+    Radar_initialize();
     
     //TODO - Acquire starting coordinates
     std::cout << "Using default initial state: x=0;0;0 v=200;0;0\n";
@@ -39,6 +42,7 @@ int main(int argn, char *argv[])
         sleep(1);
         
         printState(ownAircraft.getCurrentState());
+        //Radar_update(ownAircraft, 
         
     }
     

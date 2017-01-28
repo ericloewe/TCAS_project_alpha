@@ -9,6 +9,7 @@
  
 class TCAS_sim
 {
+public:
     const static int NumOfTargets = 10;
     
 private:

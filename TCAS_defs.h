@@ -10,6 +10,7 @@ class AC_state
     friend class AC_sim; //to access the positions and velocities
     friend class TCAS_sim; //to access AC_ID
     friend void printState(AC_state state);
+    friend void Radar_update(AC_state ownState, AC_state *targetStates);
     
 private:
     uint64_t AC_ID;
